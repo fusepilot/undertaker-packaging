@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+    <title>{{title}}</title>
+    <welcome file="welcome.html" mime-type="text/html"/>
+    <license file="license.html" mime-type="text/html"/>
+    <background file="background.png" scaling="tofit" alignment="bottomleft"/>
+    <options customize="never" require-scripts="false" rootVolumeOnly="true"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="{{bundleName}}"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="{{bundleName}}" visible="false">
+        <pkg-ref id="{{bundleName}}"/>
+    </choice>
+    <pkg-ref id="{{bundleName}}" version="{{version}}" onConclusion="none">{{title}}.pkg</pkg-ref>
+</installer-gui-script>
