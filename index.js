@@ -58,11 +58,12 @@ export default class PackageRegistery extends DefaultRegistery {
 
     taker.task('pkg:resources', taker.parallel('pkg:resources:html', 'pkg:resources:images', 'pkg:resources:markdown'))
 
+    // --scripts ${join(this.config.tempPath, 'scripts')} \
     taker.task('pkg:build', (cb) => {
       exec(`
         mkdir -p ${this.config.tempPath}/packages \
         && pkgbuild --root ${this.config.sourcePath} \
-          --scripts ${this.config.sourcePath} \
+          --scripts ${join(this.config.tempPath, 'scripts')} \
           --identifier ${this.config.bundleName} \
           --version ${this.config.version} \
           --install-location ${this.config.installPath} \
@@ -78,6 +79,13 @@ export default class PackageRegistery extends DefaultRegistery {
         .pipe(mustache(this.config.templateValues))
         .pipe(rename(`distribution.xml`))
         .pipe(vfs.dest(this.config.tempPath))
+    })
+
+    taker.task('pkg:scripts', (cb) => {
+      return vfs.src(join(__dirname, 'lib', 'scripts', '*'))
+        .pipe(mustache({...this.config.templateValues, ...this.config}))
+        // .pipe(rename(`distribution.xml`))
+        .pipe(vfs.dest(join(this.config.tempPath, 'scripts')))
     })
 
     taker.task('pkg:bundle', (cb) => {
@@ -114,7 +122,7 @@ export default class PackageRegistery extends DefaultRegistery {
       return del([join(this.config.tempPath)], { force: true })
     })
 
-    taker.task('pkg', taker.series('pkg:clean', 'pkg:distribution', 'pkg:resources', 'pkg:build', 'pkg:bundle', 'pkg:copy', 'pkg:clean'))
-    taker.task('pkg:signed', taker.series('pkg:clean', 'pkg:distribution', 'pkg:resources', 'pkg:build', 'pkg:bundle', 'pkg:sign', 'pkg:clean'))
+    taker.task('pkg', taker.series('pkg:clean', taker.parallel('pkg:scripts', 'pkg:distribution'), 'pkg:resources', 'pkg:build', 'pkg:bundle', 'pkg:copy'))
+    taker.task('pkg:signed', taker.series('pkg:clean', taker.parallel('pkg:scripts', 'pkg:distribution'), 'pkg:resources', 'pkg:build', 'pkg:bundle', 'pkg:sign'))
   }
 }
