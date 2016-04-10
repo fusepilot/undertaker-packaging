@@ -1,5 +1,4 @@
 import { sep, join } from 'path'
-
 import mustache from 'gulp-mustache'
 import pandoc from 'gulp-pandoc'
 import rename from 'gulp-rename'
@@ -58,7 +57,6 @@ export default class PackageRegistery extends DefaultRegistery {
 
     taker.task('pkg:resources', taker.parallel('pkg:resources:html', 'pkg:resources:images', 'pkg:resources:markdown'))
 
-    // --scripts ${join(this.config.tempPath, 'scripts')} \
     taker.task('pkg:build', (cb) => {
       exec(`
         mkdir -p ${this.config.tempPath}/packages \

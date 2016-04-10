@@ -2,9 +2,11 @@
   "name": "undertaker-packaging",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile",
+    "test": "mocha --compilers js:babel-core/register -w test/"
   },
   "author": "Michael Delaney <michael@fusepilot.com> (http://fusepilot.com)",
   "license": "ISC",
