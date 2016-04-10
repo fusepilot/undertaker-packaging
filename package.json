@@ -6,13 +6,16 @@
   "scripts": {
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "test": "mocha --compilers js:babel-core/register -w test/"
+    "test": "mocha --compilers js:babel-core/register -r babel-polyfill -w test/"
   },
   "author": "Michael Delaney <michael@fusepilot.com> (http://fusepilot.com)",
   "license": "ISC",
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-syntax-async-functions": "^6.5.0",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
+    "babel-plugin-transform-regenerator": "^6.6.5",
+    "babel-polyfill": "^6.7.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-stage-0": "^6.5.0",
     "del": "^2.2.0",
@@ -21,5 +24,10 @@
     "gulp-rename": "^1.2.2",
     "undertaker-registry": "^1.0.0",
     "vinyl-fs": "^2.4.3"
+  },
+  "devDependencies": {
+    "bluebird": "^3.3.4",
+    "chai": "^3.5.0",
+    "undertaker": "^0.15.0"
   }
 }
