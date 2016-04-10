@@ -9,7 +9,11 @@
     "test": "mocha --compilers js:babel-core/register -r babel-polyfill -w test/"
   },
   "author": "Michael Delaney <michael@fusepilot.com> (http://fusepilot.com)",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/fusepilot/undertaker-packaging.git"
+  },
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-syntax-async-functions": "^6.5.0",
