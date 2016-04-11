@@ -1,6 +1,6 @@
 {
   "name": "undertaker-packaging",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -30,8 +30,10 @@
     "vinyl-fs": "^2.4.3"
   },
   "devDependencies": {
+    "babel-core": "^6.7.6",
     "bluebird": "^3.3.4",
     "chai": "^3.5.0",
+    "mocha": "^2.4.5",
     "undertaker": "^0.15.0"
   }
 }
