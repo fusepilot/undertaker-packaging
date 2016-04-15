@@ -26,6 +26,8 @@
     "gulp-mustache": "^2.2.0",
     "gulp-pandoc": "^0.2.2",
     "gulp-rename": "^1.2.2",
+    "import": "0.0.6",
+    "source-map-support": "^0.4.0",
     "undertaker-registry": "^1.0.0",
     "vinyl-fs": "^2.4.3"
   },

@@ -1,14 +1,14 @@
-import { sep, join } from 'path'
-import mustache from 'gulp-mustache'
-import pandoc from 'gulp-pandoc'
-import rename from 'gulp-rename'
-import del from 'del'
-import vfs from 'vinyl-fs'
-import { exec } from 'child_process'
-import os from 'os'
-import DefaultRegistery from 'undertaker-registry'
+const { sep, join } = require('path')
+const mustache = require('gulp-mustache')
+const pandoc = require('gulp-pandoc')
+const rename = require('gulp-rename')
+const del = require('del')
+const vfs = require('vinyl-fs')
+const { exec } = require('child_process')
+const os = require('os')
+const DefaultRegistery = require('undertaker-registry')
 
-export default class PackagingRegistery extends DefaultRegistery {
+module.exports = class PackagingRegistery extends DefaultRegistery {
   constructor({title, id, version, path, scriptsPath, installPath, templateValues, resourcesPath, tempPath, outputPath}={}) {
     super()
 
@@ -36,7 +36,7 @@ export default class PackagingRegistery extends DefaultRegistery {
   init(taker) {
     taker.task('packaging:resources:markdown', () => {
       return vfs.src(join(this.config.resourcesPath, '*.md'))
-        .pipe(mustache({...this.config.templateValues, ...this.config}))
+        .pipe(mustache(Object.assign({}, this.config.templateValues, this.config)))
         .pipe(pandoc({
           from: 'markdown',
           to: 'rtf',
@@ -48,7 +48,7 @@ export default class PackagingRegistery extends DefaultRegistery {
 
     taker.task('packaging:resources:html', () => {
       return vfs.src(join(this.config.resourcesPath, '*.html'))
-        .pipe(mustache({...this.config.templateValues, ...this.config}))
+        .pipe(mustache(Object.assign({}, this.config.templateValues, this.config)))
         .pipe(vfs.dest(join(this.config.tempPath, 'resources')))
     })
 
@@ -84,7 +84,7 @@ export default class PackagingRegistery extends DefaultRegistery {
 
     taker.task('packaging:scripts', (cb) => {
       return vfs.src(join(this.config.scriptsPath, '*'))
-        .pipe(mustache({...this.config.templateValues, ...this.config}))
+        .pipe(mustache(Object.assign({}, this.config.templateValues, this.config)))
         .pipe(vfs.dest(join(this.config.tempPath, 'scripts')))
     })
 
